@@ -89,11 +89,13 @@ public class HandMove : MonoBehaviour
             }
             else
             {
+                Quaternion prevRot = leftHand.transform.rotation;
                 leftHand.transform.rotation = leftGusokuBase;
                 Quaternion orientation = ConvertRot(leftJoycon.GetVector());
                 Vector3 baseAxis = (Quaternion.Inverse(leftJoyconBase) * orientation).eulerAngles;
                 baseAxis = new Vector3(-baseAxis.x, baseAxis.y, -baseAxis.z);
                 leftHand.transform.Rotate(baseAxis);
+                leftHand.transform.rotation = Quaternion.Lerp(prevRot, leftHand.transform.rotation, 0.5f);
             }
         }
         // right hand
@@ -117,11 +119,13 @@ public class HandMove : MonoBehaviour
             }
             else
             {
+                Quaternion prevRot = rightHand.transform.rotation;
                 rightHand.transform.rotation = rightGusokuBase;
                 Quaternion orientation = ConvertRot(rightJoycon.GetVector());
                 Vector3 baseAxis = (Quaternion.Inverse(rightJoyconBase) * orientation).eulerAngles;
                 baseAxis = new Vector3(baseAxis.x, baseAxis.y, baseAxis.z);
                 rightHand.transform.Rotate(baseAxis);
+                rightHand.transform.rotation = Quaternion.Lerp(prevRot, rightHand.transform.rotation, 0.5f);ver
             }
         }
     }

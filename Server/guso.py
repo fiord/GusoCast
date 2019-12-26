@@ -16,7 +16,7 @@ client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 cascade = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")
 face_parts_detector = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
-window = "顔認識テスト"
+window = "Face Detector"
 
 K = [6.5308391993466671e+002, 0.0, 3.1950000000000000e+002,
      0.0, 6.5308391993466671e+002, 2.3950000000000000e+002,

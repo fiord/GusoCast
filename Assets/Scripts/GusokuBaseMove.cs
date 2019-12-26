@@ -99,7 +99,14 @@ public class GusokuBaseMove : MonoBehaviour
                     Vector3 tmp_faceRot = new Vector3(vals[0], vals[2], vals[1] / 3);
                     if(-20 < tmp_faceRot.x && tmp_faceRot.x<15 && Mathf.Abs(tmp_faceRot.y)<15 && Mathf.Abs(tmp_faceRot.z) < 15)
                     {
-                        faceRot = tmp_faceRot;
+                        if (faceRot == new Vector3(0, 0, 0))
+                        {
+                            faceRot = tmp_faceRot;
+                        }
+                        else
+                        {
+                            faceRot = Quaternion.Lerp(Quaternion.Euler(faceRot), Quaternion.Euler(tmp_faceRot), 0.5f).eulerAngles;
+                        }
                     }
                 }
                 catch (Exception e)
@@ -122,6 +129,7 @@ public class GusokuBaseMove : MonoBehaviour
         right_eye = 0.0f;
         BaseY = transform.position.y;
         faceBase = gusokuFace.transform.rotation;
+        faceRot = new Vector3(0, 0, 0);
 
         OpenServer();
     }
