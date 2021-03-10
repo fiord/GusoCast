@@ -138,42 +138,36 @@ public class Joycon
         }
         public byte[] GetData()
         {
+
             byte[] rumble_data = new byte[8];
-            if (amp == 0.0f){
-                rumble_data[0] = 0x0;
-                rumble_data[1] = 0x1;
-                rumble_data[2] = 0x40;
-                rumble_data[3] = 0x40;
-            }else{
-                l_f = clamp(l_f, 40.875885f, 626.286133f);
-                amp = clamp(amp, 0.0f, 1.0f);
-                h_f = clamp(h_f, 81.75177f, 1252.572266f);
-                UInt16 hf = (UInt16)((Mathf.Round(32f * Mathf.Log(h_f * 0.1f, 2)) - 0x60) * 4);
-                byte lf = (byte)(Mathf.Round(32f * Mathf.Log(l_f * 0.1f, 2)) - 0x40);
-                byte hf_amp;
-                if (amp == 0) hf_amp = 0;
-                else if (amp < 0.117) hf_amp = (byte)(((Mathf.Log(amp * 1000, 2) * 32) - 0x60) / (5 - Mathf.Pow(amp, 2)) - 1);
-                else if (amp < 0.23) hf_amp = (byte)(((Mathf.Log(amp * 1000, 2) * 32) - 0x60) - 0x5c);
-                else hf_amp = (byte)((((Mathf.Log(amp * 1000, 2) * 32) - 0x60) * 2) - 0xf6);
+            l_f = clamp(l_f, 40.875885f, 626.286133f);
+            amp = clamp(amp, 0.0f, 1.0f);
+            h_f = clamp(h_f, 81.75177f, 1252.572266f);
+            UInt16 hf = (UInt16)((Mathf.Round(32f * Mathf.Log(h_f * 0.1f, 2)) - 0x60) * 4);
+            byte lf = (byte)(Mathf.Round(32f * Mathf.Log(l_f * 0.1f, 2)) - 0x40);
+            byte hf_amp;
+            if (amp == 0) hf_amp = 0;
+            else if (amp < 0.117) hf_amp = (byte)(((Mathf.Log(amp * 1000, 2) * 32) - 0x60) / (5 - Mathf.Pow(amp, 2)) - 1);
+            else if (amp < 0.23) hf_amp = (byte)(((Mathf.Log(amp * 1000, 2) * 32) - 0x60) - 0x5c);
+            else hf_amp = (byte)((((Mathf.Log(amp * 1000, 2) * 32) - 0x60) * 2) - 0xf6);
 
-                UInt16 lf_amp = (UInt16)(Mathf.Round(hf_amp) * .5);
-                byte parity = (byte)(lf_amp % 2);
-                if (parity > 0)
-                {
-                    --lf_amp;
-                }
-
-                lf_amp = (UInt16)(lf_amp >> 1);
-                lf_amp += 0x40;
-                if (parity > 0) lf_amp |= 0x8000;
-                rumble_data = new byte[8];
-                rumble_data[0] = (byte)(hf & 0xff);
-                rumble_data[1] = (byte)((hf >> 8) & 0xff);
-                rumble_data[2] = lf;
-                rumble_data[1] += hf_amp;
-                rumble_data[2] += (byte)((lf_amp >> 8) & 0xff);
-                rumble_data[3] += (byte)(lf_amp & 0xff);
+            UInt16 lf_amp = (UInt16)(Mathf.Round(hf_amp) * .5);
+            byte parity = (byte)(lf_amp % 2);
+            if (parity > 0)
+            {
+                --lf_amp;
             }
+
+            lf_amp = (UInt16)(lf_amp >> 1);
+            lf_amp += 0x40;
+            if (parity > 0) lf_amp |= 0x8000;
+            rumble_data = new byte[8];
+            rumble_data[0] = (byte)(hf & 0xff);
+            rumble_data[1] = (byte)((hf >> 8) & 0xff);
+            rumble_data[2] = lf;
+            rumble_data[1] += hf_amp;
+            rumble_data[2] += (byte)((lf_amp >> 8) & 0xff);
+            rumble_data[3] += (byte)(lf_amp & 0xff);
             for (int i = 0; i < 4; ++i)
             {
                 rumble_data[4 + i] = rumble_data[i];
@@ -373,7 +367,7 @@ public class Joycon
                     DebugPrint(string.Format("Duplicate timestamp dequeued. TS: {0:X2}", ts_de), DebugType.THREADING);
                 }
                 ts_de = report_buf[1];
-                DebugPrint(string.Format("Dequeue. Queue length: {0:d}. Packet ID: {1:X2}. Timestamp: {2:X2}. Lag to dequeue: {3:t}. Lag between packets (expect 15ms): {4:t}",
+                DebugPrint(string.Format("Dequeue. Queue length: {0}. Packet ID: {1}. Timestamp: {2}. Lag to dequeue: {3}. Lag between packets (expect 15ms): {4}",
                     reports.Count, report_buf[0], report_buf[1], System.DateTime.Now.Subtract(rep.GetTime()), rep.GetTime().Subtract(ts_prev)), DebugType.THREADING);
                 ts_prev = rep.GetTime();
             }

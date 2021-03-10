@@ -1,96 +1,102 @@
 fileFormatVersion: 2
-guid: ae8ad2c5689d4be479f180561bae696e
+guid: a1fd545668ff8cc479b1fbed4dd7512c
 ModelImporter:
-  serializedVersion: 25
-  internalIDToNameTable: []
+  serializedVersion: 19300
+  internalIDToNameTable:
+  - first:
+      41386430: 2186277476908879412
+    second: ImportLogs
+  - first:
+      74: -623603649343465320
+    second: Scene
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: body
-    second: {fileID: 2100000, guid: ce5e0e9c6d1b4224488cdb459f029c34, type: 2}
+    second: {fileID: 2100000, guid: 2a9bb2fa34460524f85865f5fcf5da7d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: body.001
-    second: {fileID: 2100000, guid: 21b4c8dc757dbbb41a6f905c5c78d4d7, type: 2}
+    second: {fileID: 2100000, guid: cda0ae369908b884a9bbfda70aabc780, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: body.004
-    second: {fileID: 2100000, guid: 4a87d7b680dae5347ac9667283bd9992, type: 2}
+    second: {fileID: 2100000, guid: 0284793ff2e60f14dae7efcb89c24608, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: body.006
-    second: {fileID: 2100000, guid: acf5f6809bd8a9449a89967c2897399c, type: 2}
+    second: {fileID: 2100000, guid: 9f029c41d113a64459847c2d04ec1167, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: body.007
-    second: {fileID: 2100000, guid: 912be24707a7c244e9211a91232880ef, type: 2}
+    second: {fileID: 2100000, guid: b5629e734918e944d8e287d516cc9eda, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: body.008
-    second: {fileID: 2100000, guid: 9840178426e0f1f4ba52c3af762a63e4, type: 2}
+    second: {fileID: 2100000, guid: 4c8ebb923ba1f0a4fb53c20a3b576712, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: body.009
-    second: {fileID: 2100000, guid: b47aadfb95c0d1c40bc226d16732513b, type: 2}
+    second: {fileID: 2100000, guid: 6b08f4a05bc304c408ef2a11c24c1f38, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: body.010
-    second: {fileID: 2100000, guid: 449002e03259f20468346a73a5509dbe, type: 2}
+    second: {fileID: 2100000, guid: 185728591fa00134e8cd70b36bb008b3, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: body.011
-    second: {fileID: 2100000, guid: af75faffd0a354d44b7a1e581aca1cc6, type: 2}
+    second: {fileID: 2100000, guid: 54a4eaa4cdbeb1d4097d953f859b95b9, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: body.059
-    second: {fileID: 2100000, guid: 7389ffe25e8fd7149840698052efb463, type: 2}
+    second: {fileID: 2100000, guid: b32ad76af5b212440a77f6b1b89908be, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: body.061
-    second: {fileID: 2100000, guid: ea6d6ae2171797f4e9ab5e4299a7126d, type: 2}
+    second: {fileID: 2100000, guid: 2c1c64efc7ca90d449e9729b1eb439ca, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: body.069
-    second: {fileID: 2100000, guid: 6a46f028599e9e04e80978ddac82d8e0, type: 2}
+    second: {fileID: 2100000, guid: e013078534ba084448a667dbb98ece2a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: body_line
-    second: {fileID: 2100000, guid: af46b252821dcdd40be30fdd68bc7e87, type: 2}
+    second: {fileID: 2100000, guid: 5b4404c5e8a28e14395c8e0bf2559316, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: eye_HL
-    second: {fileID: 2100000, guid: 84d7c7829b575bd489847a098f12f16d, type: 2}
+    second: {fileID: 2100000, guid: f233afb26fa52914882397c21f9f1aa2, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: eye_HL.001
-    second: {fileID: 2100000, guid: 7aaba9d3714129d4b96aaa1676ff6144, type: 2}
+    second: {fileID: 2100000, guid: b549c95023d2f75458944a8cf98ae43f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: eye_black
-    second: {fileID: 2100000, guid: 39cc041b6d8efc040be05a0543da9658, type: 2}
+    second: {fileID: 2100000, guid: 86fa4774da7b6824dbf0b1f78d04bd99, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: eye_black.002
-    second: {fileID: 2100000, guid: 9b4bbd40e5f942e49b3682d86d7ec457, type: 2}
+    second: {fileID: 2100000, guid: f9264c673b7db354a97567273acb8a08, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -123,6 +129,7 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -153,7 +160,6 @@ ModelImporter:
     normalSmoothingSource: 0
   referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
     serializedVersion: 3
     human: []
@@ -171,8 +177,10 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

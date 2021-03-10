@@ -127,15 +127,16 @@ if __name__ == "__main__":
         if key == 27:
             print("quit")
             break
-        
+
         ret, img = capture.read()
         if ret == False:
             print("capture failed")
             break
-        
+
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        
-        facerect = cascade.detectMultiScale(img, scaleFactor=1.1, minNeighbors=1, minSize=(100, 100))
+        gray = cv2.equalizeHist(gray)
+
+        facerect = cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=1, minSize=(100, 100))
         if len(facerect) == 1:
             x, y, w, h = facerect[0]
             # gray_resized = cv2.resize(gray[y:y+h,x:x+w], dsize=None, fx=480/h, fy=480/h)
@@ -143,45 +144,45 @@ if __name__ == "__main__":
             face = dlib.rectangle(x, y, x+w, y+h)
             face_parts = face_parts_detector(gray, face)
             face_parts = face_utils.shape_to_np(face_parts)
-            
+
             # 目はkalman filterを挟んではいけません
             right_eye = eye_size(face_parts[36:42])
             left_eye = eye_size(face_parts[42:48])
             mouth = (cv2.norm(face_parts[61] - face_parts[67]) + cv2.norm(face_parts[62]-face_parts[66]) + cv2.norm(face_parts[63] - face_parts[65])) / (3.0 * cv2.norm(face_parts[60] - face_parts[64]))
             for i in range(face_parts.shape[0]):
                 face_parts[i] = np.asarray([kalmans[i][j].guess(face_parts[i][j]) for j in range(2)])
-            
+
             reprojectdst, euler_angle = get_head_pose(face_parts)
             for i in range(3):
                 euler_angle[i, 0] = euler_kalmans[i].guess(euler_angle[i, 0])
 
             if DEBUG:
                 for i, ((xx, yy)) in enumerate(face_parts[:]):
-                    cv2.circle(img, (xx, yy), 1, (0, 255, 0), -1)
-                    cv2.putText(img, str(i), (xx+2, yy-2), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (0, 255, 0), 1)
-                cv2.putText(img, "left_eye: {0}".format(round(left_eye, 3)), (20, 170), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 255), 1, cv2.LINE_AA)
-                cv2.putText(img, "right_eye: {0}".format(round(right_eye, 3)), (20, 200), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 255), 1, cv2.LINE_AA)
+                    cv2.circle(gray, (xx, yy), 1, (0, 255, 0), -1)
+                    cv2.putText(gray, str(i), (xx+2, yy-2), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (0, 255, 0), 1)
+                cv2.putText(gray, "left_eye: {0}".format(round(left_eye, 3)), (20, 170), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 255), 1, cv2.LINE_AA)
+                cv2.putText(gray, "right_eye: {0}".format(round(right_eye, 3)), (20, 200), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 255), 1, cv2.LINE_AA)
                 for start, end in line_pairs:
                     # reproject_start = (int(reprojectdst[start][0] * h / 480 + x), int(reprojectdst[start][1] * h / 480 + y))
                     # reproject_end = (int(reprojectdst[end][0] * h / 480 + x), int(reprojectdst[end][1] * h / 480 + y))
-                    cv2.line(img, reprojectdst[start], reprojectdst[end], (0, 0, 255))
-                cv2.putText(img, "X: " + "{:7.2f}".format(euler_angle[0, 0]), (20, 80), cv2.FONT_HERSHEY_SIMPLEX,
+                    cv2.line(gray, reprojectdst[start], reprojectdst[end], (0, 0, 255))
+                cv2.putText(gray, "X: " + "{:7.2f}".format(euler_angle[0, 0]), (20, 80), cv2.FONT_HERSHEY_SIMPLEX,
                             0.75, (0, 0, 0), thickness=2)
-                cv2.putText(img, "Y: " + "{:7.2f}".format(euler_angle[1, 0]), (20, 110), cv2.FONT_HERSHEY_SIMPLEX,
+                cv2.putText(gray, "Y: " + "{:7.2f}".format(euler_angle[1, 0]), (20, 110), cv2.FONT_HERSHEY_SIMPLEX,
                             0.75, (0, 0, 0), thickness=2)
-                cv2.putText(img, "Z: " + "{:7.2f}".format(euler_angle[2, 0]), (20, 140), cv2.FONT_HERSHEY_SIMPLEX,
+                cv2.putText(gray, "Z: " + "{:7.2f}".format(euler_angle[2, 0]), (20, 140), cv2.FONT_HERSHEY_SIMPLEX,
                             0.75, (0, 0, 0), thickness=2)
                 # cv2.imshow("gray_resized", gray_resized)
 
             send_data = "{0} {1} {2} {3} {4} {5}".format(euler_angle[0, 0], euler_angle[1, 0], euler_angle[2, 0], left_eye, right_eye, mouth)
             client.sendto(send_data.encode("utf-8"), (HOST, PORT))
             print("send {0}".format(send_data))
-        
+
         if DEBUG:
             fps = cv2.getTickFrequency() / (cv2.getTickCount() - tick)
-            cv2.putText(img, "FPS:{0}".format(int(fps)), (10, 50), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 255), 2, cv2.LINE_AA)
-            cv2.imshow(window, img)
+            cv2.putText(gray, "FPS:{0}".format(int(fps)), (10, 50), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 255), 2, cv2.LINE_AA)
+        cv2.imshow(window, gray)
 
-    
+
     capture.release()
     cv2.destroyAllWindows()

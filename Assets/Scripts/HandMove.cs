@@ -112,6 +112,7 @@ public class HandMove : MonoBehaviour
             if (rightJoyconBase == Quaternion.identity)
             {
                 rightJoyconBase = ConvertRot(leftJoycon.GetVector());
+                Debug.Log("right reset " + rightJoyconBase.eulerAngles);
             }
             else if(m_pressedButtonR == Joycon.Button.SHOULDER_1)
             {
@@ -122,11 +123,29 @@ public class HandMove : MonoBehaviour
                 Quaternion prevRot = rightHand.transform.rotation;
                 rightHand.transform.rotation = rightGusokuBase;
                 Quaternion orientation = ConvertRot(rightJoycon.GetVector());
+                Debug.Log(orientation.eulerAngles);
                 Vector3 baseAxis = (Quaternion.Inverse(rightJoyconBase) * orientation).eulerAngles;
                 baseAxis = new Vector3(baseAxis.x, baseAxis.y, baseAxis.z);
+                Debug.Log(orientation.eulerAngles.ToString() + " " + baseAxis);
                 rightHand.transform.Rotate(baseAxis);
-                rightHand.transform.rotation = Quaternion.Lerp(prevRot, rightHand.transform.rotation, 0.5f);ver
+                rightHand.transform.rotation = Quaternion.Lerp(prevRot, rightHand.transform.rotation, 0.5f);
             }
         }
+
+        // reset
+        if (Input.GetKey(KeyCode.R))
+        {
+            StartCoroutine(DelayMethod(3.0f, () =>
+            {
+                leftJoyconBase = Quaternion.identity;
+                rightJoyconBase = Quaternion.identity;
+            }));
+        }
+    }
+
+    private IEnumerator DelayMethod(float waitTime, Action action)
+    {
+        yield return new WaitForSeconds(waitTime);
+        action();
     }
 }

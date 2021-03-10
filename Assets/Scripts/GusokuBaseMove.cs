@@ -25,9 +25,10 @@ public class GusokuBaseMove : MonoBehaviour
     static float left_eye, right_eye;
     const float THRESHOLD = 0.16f;
 
-    // face
-    static private GameObject gusokuFace;
-    static Quaternion faceBase;
+    // face (from vert1 to vert6)
+    static private GameObject[] gusokuFace = new GameObject[6];
+    static Quaternion[] faceBase = new Quaternion[6];
+    readonly float[] lerpT = { 1.0f, 0.8f, 0.6f, 0.8f, 0.9f, 1.0f };
     static Vector3 faceRot;
 
     // position
@@ -74,7 +75,6 @@ public class GusokuBaseMove : MonoBehaviour
                         vals[i] = float.Parse(texts[i]);
                     }
 
-                    Debug.Log(new Vector2(vals[3], vals[4]));
                     // left eye
                     if (vals[3] > THRESHOLD)
                     {
@@ -95,7 +95,6 @@ public class GusokuBaseMove : MonoBehaviour
                     }
 
                     // face
-                    // 
                     Vector3 tmp_faceRot = new Vector3(vals[0], vals[2], vals[1] / 3);
                     if(-20 < tmp_faceRot.x && tmp_faceRot.x<15 && Mathf.Abs(tmp_faceRot.y)<15 && Mathf.Abs(tmp_faceRot.z) < 15)
                     {
@@ -111,6 +110,7 @@ public class GusokuBaseMove : MonoBehaviour
                 }
                 catch (Exception e)
                 {
+                    Debug.Log(e);
                     left_eye = 0.5f + 0.5f * Mathf.Sin(Time.time);
                     right_eye = 0.5f - 0.5f * Mathf.Sin(Time.time);
                 }
@@ -122,13 +122,16 @@ public class GusokuBaseMove : MonoBehaviour
     void Start()
     {
         gusoku = GameObject.Find("gusoku_mesh");
-        gusokuFace = GameObject.Find("vert02");
-
         skinnedMeshRenderer = gusoku.GetComponent<SkinnedMeshRenderer>();
+
         left_eye = 0.0f;
         right_eye = 0.0f;
         BaseY = transform.position.y;
-        faceBase = gusokuFace.transform.rotation;
+        for (int i = 0; i < 6; i++)
+        {
+            gusokuFace[i] = GameObject.Find("vert" + (i + 1).ToString().PadLeft(2, '0'));
+            faceBase[i] = gusokuFace[i].transform.rotation;
+        }
         faceRot = new Vector3(0, 0, 0);
 
         OpenServer();
@@ -144,9 +147,20 @@ public class GusokuBaseMove : MonoBehaviour
         // right eye
         skinnedMeshRenderer.SetBlendShapeWeight(1, 100 * right_eye);
         // position
-        transform.position = new Vector3(transform.position.x, Mathf.Sin(Time.time) + BaseY, transform.position.z);
+        transform.position = new Vector3(transform.position.x, 0.3f * Mathf.Sin(Time.time) + BaseY, transform.position.z);
         // face
-        gusokuFace.transform.rotation = faceBase * Quaternion.Euler(faceRot);
+        Quaternion faceRotQ = Quaternion.Euler(faceRot);
+        for (int i = 0; i < 2; i++)
+        {
+            Quaternion target = faceBase[i] * faceRotQ;
+            gusokuFace[i].transform.rotation = Quaternion.Lerp(faceBase[i], target, lerpT[i]);
+        }
+        faceRotQ = Quaternion.Euler(new Vector3(-faceRot.x, -faceRot.y, faceRot.z));
+        for (int i = 2; i < 6; i++)
+        {
+            Quaternion target = faceBase[i] * faceRotQ;
+            gusokuFace[i].transform.rotation = Quaternion.Lerp(faceBase[i], target, lerpT[i]);
+        }
         // Debug.Log(faceRot);
     }
 
